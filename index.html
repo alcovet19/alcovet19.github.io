@@ -2,54 +2,119 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>alcovet19's GitHub Website</title>
+  <title>alcovet19's Simple Chat!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body {
+      background: #e3f2fd;
       font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
       margin: 0;
       padding: 0;
-      min-height: 100vh;
-      background: linear-gradient(120deg, #90caf9 0%, #fbc2eb 100%);
-      color: #333;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
-    .content {
+    .chat-container {
       background: #fff;
-      border-radius: 16px;
-      padding: 2rem 3rem;
-      box-shadow: 0px 6px 32px rgba(0,0,0,0.12);
-      text-align: center;
-      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      width: 350px;
+      max-width: 95vw;
+      padding: 1.5em;
+      display: flex;
+      flex-direction: column;
     }
-    h1 {
-      margin-top: 0;
-      color: #1976d2;
+    .chat-log {
+      height: 260px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      margin-bottom: 1em;
+      padding: 1em;
+      overflow-y: auto;
+      font-size: 1em;
+      display: flex;
+      flex-direction: column;
     }
-    p {
-      font-size: 1.2rem;
+    .message {
+      margin-bottom: 0.5em;
+      word-break: break-word;
     }
-    .footer {
-      margin-top: 2em;
-      color: #666;
-      font-size: 0.95em;
+    .message.user {
+      align-self: flex-end;
+      color: #1565c0;
+      font-weight: bold;
+    }
+    .message.bot {
+      align-self: flex-start;
+      color: #2e7d32;
+    }
+    .chat-controls {
+      display: flex;
+      gap: 0.5em;
+    }
+    .chat-controls input {
+      flex: 1;
+      padding: 0.6em;
+      border-radius: 6px;
+      border: 1px solid #bdbdbd;
+      font-size: 1em;
+    }
+    .chat-controls button {
+      padding: 0.6em 1.2em;
+      background: #1976d2;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background 0.18s;
+    }
+    .chat-controls button:hover {
+      background: #1565c0;
     }
   </style>
 </head>
 <body>
-  <div class="content">
-    <h1>Welcome to alcovet19's Website!</h1>
-    <p>This site is hosted for free using GitHub Pages.<br>
-    Enjoy your new personal site!</p>
-    <p>
-      <a href="https://github.com/alcovet19" target="_blank">Visit my GitHub Profile</a>
-    </p>
+  <div class="chat-container">
+    <h2 style="margin-top:0;">alcovet19 Chat 💬</h2>
+    <div class="chat-log" id="chatLog">
+      <div class="message bot">Hello! 👋 Welcome to alcovet19's chat demo.<br>Type a message below!</div>
+    </div>
+    <div class="chat-controls">
+      <input id="userInput" type="text" autocomplete="off" placeholder="Say something...">
+      <button onclick="sendMsg()">Send</button>
+    </div>
   </div>
-  <div class="footer">
-    &copy; 2025 alcovet19 &mdash; Powered by GitHub Pages
-  </div>
+  <script>
+    function sendMsg() {
+      const input = document.getElementById('userInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+
+      const chatLog = document.getElementById('chatLog');
+      // Add user message
+      const uMsg = document.createElement('div');
+      uMsg.className = 'message user';
+      uMsg.textContent = msg;
+      chatLog.appendChild(uMsg);
+
+      // Optional: Simple bot reply
+      setTimeout(() => {
+        const reply = document.createElement('div');
+        reply.className = 'message bot';
+        reply.textContent = `You said: "${msg}"`;
+        chatLog.appendChild(reply);
+        chatLog.scrollTop = chatLog.scrollHeight;
+      }, 500);
+
+      input.value = '';
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    document.getElementById('userInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') sendMsg();
+    });
+  </script>
 </body>
 </html>
